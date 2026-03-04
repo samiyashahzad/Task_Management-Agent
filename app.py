@@ -6,7 +6,7 @@ import streamlit as st
 
 from langchain.agents import create_agent
 
-from agent.tools import init_database, create_toolkit
+from agent.tools import init_database, create_toolkit, create_sql_executor_tool
 from agent.prompts import system_prompt
 from agent.memory import get_checkpointer
 
@@ -19,6 +19,9 @@ db_path = os.path.join(BASE_DIR, "database", "tasks.db")
 db = init_database(db_path)
 toolkit = create_toolkit(db)
 tools = toolkit.get_tools()
+# add custom raw-sql executor tool so the agent can run arbitrary
+# queries and return errors directly to the LLM
+tools.append(create_sql_executor_tool(db_path))
 
 @st.cache_resource  # Cache the agent to avoid reinitialization on every interaction
 
