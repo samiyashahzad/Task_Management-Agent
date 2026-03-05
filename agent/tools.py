@@ -24,7 +24,7 @@ def init_database(db_path: str):
 
 
 def create_toolkit(db):
-    model = ChatGroq(model="llama-3.3-70b-versatile") 
+    model = ChatGroq(model="openai/gpt-oss-20b") 
     return SQLDatabaseToolkit(db=db, llm=model)
 
 
